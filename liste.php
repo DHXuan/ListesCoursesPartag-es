@@ -27,7 +27,7 @@ if(isset($_SESSION['id'])) {
 }
 
 function RestransListe($num){
-  $initliste ='<div class="liste" id="'.$num.'."><h2 contenteditable="true">Saisissez le titre...</h2><div><h3>Code de la liste à partager : '.$num.'</h3></div>';
+  $initliste ='<div class="liste" id="'.$num.'"><h2 contenteditable="true">Saisissez le titre...</h2><div><h3>Code de la liste à partager : '.$num.'</h3></div>';
   $divfruits = '<div id="categorie"><h4>Fruits</h4>';
   $divlegumes ='<div id="categorie"><h4>Legumes</h4>';
   $divviandes ='<div id="categorie"><h4>Viandes</h4>';
