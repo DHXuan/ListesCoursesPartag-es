@@ -11,8 +11,6 @@ function Recupdonne($filename) {
   return $codes;
 }
 
-
-
 $catego = ['Fruits', 'Legumes', 'Viandes', 'Boissons', 'Surgelés','Autres'];
 
 session_start();
@@ -26,8 +24,10 @@ if(isset($_SESSION['id'])) {
   exit;
 }
 
-function RestransListe($num){
-  $initliste ='<div class="liste" id="'.$num.'."><h2 contenteditable="true">Saisissez le titre...</h2><div><h3>Code de la liste à partager : '.$num.'</h3></div>';
+$titres = Recupdonne("titres.txt");
+function RestransListe($num,$titres){
+  $initliste ='<div class="liste" id="'.$num.'"><h2 id ="titre" contenteditable="true">';
+  $initlistev2 = '</h2><div><h3>Code de la liste à partager : '.$num.'</h3></div>';
   $divfruits = '<div id="categorie"><h4>Fruits</h4>';
   $divlegumes ='<div id="categorie"><h4>Legumes</h4>';
   $divviandes ='<div id="categorie"><h4>Viandes</h4>';
@@ -38,6 +38,12 @@ function RestransListe($num){
   $divplus ='<button>+</button>';
   $numlistefichier = $num.'.txt';
   $produits = Recupdonne($numlistefichier);
+  foreach ($titres as $titreliste){
+      if ($titreliste[0] === $num){
+        $initliste.= $titreliste[1];
+        
+  }
+}
     foreach ($produits as $produit){
       //placer les produits dans la var declarée au début dans leur bonne catécorie
       //if ($liste[0] === 'Fruits'){
@@ -76,7 +82,7 @@ function RestransListe($num){
     $divproduitslaitiers .= '</div>';
     $divautres .= '</div>';
   
-    $divresult = $initliste.$divplus.'Ajouter un produit</br>'.$divfruits.$divlegumes.$divviandes.$divboissons.$divproduitslaitiers.$divsurgeles.$divautres.'</div>';
+    $divresult = $initliste.$initlistev2.$divplus.'Ajouter un produit</br>'.$divfruits.$divlegumes.$divviandes.$divboissons.$divproduitslaitiers.$divsurgeles.$divautres.'</div>';
     
     return $divresult;
   }
@@ -87,7 +93,7 @@ $codes = Recupdonne($fichier_perso); //tab de 1 colonnes et de n lignes pour les
 $ensembleListe = ''; 
 $liste = [];
 foreach ($codes as $code){
-  $ensembleListe .= RestransListe($code[0]);
+  $ensembleListe .= RestransListe($code[0],$titres);
 }
   
 
@@ -132,33 +138,33 @@ $script = '<script src="espoir.js"></script> ';
     <div class="abs">
       <h1><b>Votre Profil</b></h1>  
       
-        <li> <?php echo $_SESSION['nom'] ?></li>
-        <li> <?php echo $_SESSION['prenom'] ?></li>
-        <li>  Email : <?php echo $_SESSION['email']?></li>
+      <li> 
+        <ul> <?php echo $_SESSION['nom'] ?></ul>
+        <ul> <?php echo $_SESSION['prenom'] ?></ul>
+        <ul>  Email : <?php echo $_SESSION['email']?></ul>
         <br/>
-        <li><button id="ajoutListe">📝</button> 
-          <b>Ajouter une liste</b></li>
+        <ul><button id="ajoutListe">📝</button> 
+          <b>Ajouter une liste</b></ul>
       </br>
-      <li>
-        <a href="rentrercode.php?id=<?php echo $_SESSION['id'] ?>">
-          <button id = 'code'> Rentrer un code </button>
-        </li>
+      <ul><a href ="supprimerListe.php?id=<?php echo $_SESSION['id'] ?></a>"><button id = 'suppliste'> Supprimer une Liste</button></a></ul>
+      <ul><a href="rentrercode.php?id=<?php echo $_SESSION['id'] ?>"><button id = 'code'> Rentrer un code </button></a></ul>
+      <ul>
+          </br>
+          <a href="admin_connect.php?id=<?php echo $_SESSION['id'] ?>">
+            <button id = 'admin'> ADMIN </button>
+      </ul>
         </br>
-        <li>
-        <a href="admin_connect.php?id=<?php echo $_SESSION['id'] ?>">
-          <button id = 'admin'> ADMIN </button>
-        </li>
-        </br>
-        <button id="retour">↩️</button> 
+        <ul><button id="retour">↩️</button> 
         <a href="deco.php?id=<?php echo $_SESSION['id'] ?>">
+      
           <!--<input type="button"  class="Deconnexion "id="Deconnexion" name="Deconnexion" value="Deconnexion"/> -->
           <button id = 'deco'> Deconnexion </button>
-          </a>
+          </a></ul>
 
-      </ul>
+      </li>
 
     </div>
-    </div>
+  </div>
 
 
   <div class = "emplacement_liste" id = 'liste'>
