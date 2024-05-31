@@ -5,3 +5,7 @@ function creat() {
 function rentrercode() {
   window.location.href = "rentrercode.php";
 }
+
+function oublie(){
+  window.location.href = "oublie.php";
+}
